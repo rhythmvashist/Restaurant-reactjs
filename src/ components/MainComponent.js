@@ -2,8 +2,13 @@ import React ,{Component} from 'react';
 import Menu from './MenuComponent'
 import DishDetail from './DishDetailComponent'
 import Header from './HeaderCompoment'
+import Contact from './ContactComponent'
 import Footer from  './FooterComponent'
 import {DISHES} from '../shared/dishes'
+import {LEADERS} from '../shared/leaders'
+import {PROMOTIONS} from '../shared/promotions'
+import {COMMENTS} from '../shared/comments'
+
 import {Route,Redirect, Switch} from 'react-router-dom';
 import Home from './HomeComponent'
 
@@ -12,7 +17,11 @@ class Main extends Component {
     super (props);
     this.state = { 
       dishes: DISHES,
-      selectedDish:null,
+      leaders:LEADERS,
+      promotions:PROMOTIONS,
+      comments:COMMENTS,
+      // for the dish component 
+      /*selectedDish:null,*/
      }
     }
 
@@ -22,11 +31,10 @@ class Main extends Component {
         })
     }
 
-
     render() {
-        const Homepage = () =>  <Home />
-            
-
+      const Homepage = () =>  <Home dish={this.state.dishes.filter((dish)=> dish.featured)[0]} 
+      promotion={this.state.promotions.filter((promo)=> promo.featured)[0]} 
+      leader={this.state.leaders.filter((lead)=>lead.featured)[0]} />
 
       return (
         <div>
@@ -34,13 +42,16 @@ class Main extends Component {
           <Switch>
             <Route path="/home" component={Homepage} />
             <Route exact path="/menu" component={()=> <Menu dishes={this.state.dishes}/>} />
+            <Route exact path='/contactus' component={Contact}/>
             <Redirect to="/home"/>
           </Switch>
-          <Menu  dishes={this.state.dishes} onClick={(dishId)=> this.onDishSelect(dishId)}/>
-          <DishDetail dish={this.state.dishes.filter((dish) => dish.id === this.state.selectedDish)[0]}/>
+          {/*
+            <Menu  dishes={this.state.dishes} onClick={(dishId)=> this.onDishSelect(dishId)}/>
+            <DishDetail dish={this.state.dishes.filter((dish) => dish.id === this.state.selectedDish)[0]}/>
+          */}
           <Footer />
         </div>
       );
+    }
   }
-}
 export default Main;

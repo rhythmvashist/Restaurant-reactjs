@@ -46,10 +46,9 @@ import {Card, CardBody,CardTitle, CardText, CardImg } from 'reactstrap'
         <div></div>
       )
     }
-}
+  }
 
 const DishDetail = (props)=>{
-
     if (props.dish !=null){
       return(
           <div className='container'>
@@ -64,8 +63,7 @@ const DishDetail = (props)=>{
       return (
       <div>
       </div>)
-    }
-    
+    }  
   }
 
 export default DishDetail;
