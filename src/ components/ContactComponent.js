@@ -122,7 +122,7 @@ class Contact extends Component {
                     </div>
                     <div className="col-12 col-md-9">
                         <Form onSubmit={this.handleSubmit}>
-                        <FormGroup row>
+                            <FormGroup row>
                                 <Label htmlFor="firstname" md={2}>First Name</Label>
                                 <Col md={10}>
                                     <Input type="text" id="firstname" name="firstname"
