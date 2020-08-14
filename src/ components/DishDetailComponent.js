@@ -71,8 +71,8 @@ class DishDetail extends Component{
   }
 
   handleSubmit(values){
-    this.toggleModal();
 
+    alert("curent state is :"+JSON.stringify(values))
   }
 
   render(){
@@ -112,8 +112,9 @@ class DishDetail extends Component{
                   </Control.select>
                 </Col>
               </Row>
+
               <Row className="form-group">
-                <Label htmlFor="author" md={12}>
+                <Label htmlFor="name" md={12}>
                   Your Name
                 </Label>
                 <Col md={12}>
@@ -134,6 +135,7 @@ class DishDetail extends Component{
                       maxLength: "Must be 15 characters or less"
                     }}
                   />
+                  
                 </Col>
               </Row>
               <Row className="form-group">
