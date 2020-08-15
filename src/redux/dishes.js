@@ -1,0 +1,1 @@
+import {DISHES} from '../shared/dishes';
