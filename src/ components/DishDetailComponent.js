@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, CardBody, CardTitle, CardText, CardImg, Breadcrumb, BreadcrumbItem, FormGroup,Button,Modal, ModalHeader,ModalBody,Form,Label,Input,Row,Col } from 'reactstrap';
+import { Card, CardBody, CardTitle, CardText, CardImg, Breadcrumb, BreadcrumbItem,Button,Modal, ModalHeader,ModalBody,Label,Row,Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import {Control, LocalForm,Errors} from 'react-redux-form'
 
@@ -8,96 +8,36 @@ const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length<=len);
 const minLength = (len) => (val) => !(val) || (val.length>=len);
 
-function RenderDish({ dish }) {
-  if (dish !== null) {
-    return (
-      <div key={dish.id} className='col-12 col-md-5 m-1'>
-        <Card >
-          <CardImg top width="100%" src={dish.image} alt="Card image cap" />
-          <CardBody>
-            <CardTitle>{dish.name}</CardTitle>
-            <CardText>{dish.description}</CardText>
-          </CardBody>
-        </Card>
-      </div>
-    )
-  }
-  else {
-    return (<div></div>)
-  }
-}
-
-function RenderComments({ comments,isopen }) {
-  if (comments !== null) {
-    return (
-      <div className='col-12 col-md-5 m-1'>
-        <h4>Comments</h4>
-        <ul className='list-unstyled'>
-          {comments.map(comment =>
-            <li key={comment.id}>
-              <p>{comment.comment}</p>
-              <p>-- {comment.author},
-              {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(comment.date))}
-              </p>
-            </li>
-          )}
-        </ul>
-        <Button outline onClick={isopen} ><span className="fa fa-edit fa-lg"></span> Submit comment</Button>
-      </div>
-    )
-  }
-  else {
-    return (
-      <div></div>
-    )
-  }
-}
-
-class DishDetail extends Component{
+class CommentForm extends Component{
   constructor(props){
     super (props);
     this.state = {
       isModalOpen:false
     }
     this.toggleModal=this.toggleModal.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
-
+  
   toggleModal(){
-    console.log('THIS IS IT ')
     this.setState({
       isModalOpen: !this.state.isModalOpen
     })
-    console.log(this.state.isModalOpen);
   }
 
   handleSubmit(values){
-
+    this.toggleModal();
+    this.props.addComment(this.props.dishId,values.rating,values.name,values.comment);
     alert("curent state is :"+JSON.stringify(values))
   }
 
-  render(){
-    if (this.props.dish != null) {
-      return (
-        <div className='container'>
-          <div className="row">
-            <Breadcrumb>
-              <BreadcrumbItem><Link to="/menu">Menu</Link></BreadcrumbItem>
-              <BreadcrumbItem active>{this.props.dish.name}</BreadcrumbItem>
-            </Breadcrumb>
-            <div className="col-12">
-              <h3>{this.props.dish.name}</h3>
-              <hr />
-            </div>
-          </div>
-          <div className='row'>
-            <RenderDish dish={this.props.dish} />
-            <RenderComments comments={this.props.comments} isopen={this.toggleModal}/>
-
-            {/* Modal for comment submissions */}
-            <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
-                <ModalHeader toggle={this.toggleModal}>Login</ModalHeader>
-                <ModalBody>
-                <LocalForm onSubmit={this.handleSubmit}>
+  render() {
+    return (
+    <div>
+      <Button outline onClick={this.toggleModal} ><span className="fa fa-edit fa-lg"></span> Submit Comment</Button>
+      <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
+        <ModalHeader toggle={this.toggleModal}>Login</ModalHeader>
+              <ModalBody>
+              <LocalForm onSubmit={this.handleSubmit}>
               <Row className="form-group">
                 <Label htmlFor="rating" md={12}>
                   Rating
@@ -158,17 +98,84 @@ class DishDetail extends Component{
             </LocalForm>
             </ModalBody>
             </Modal>
+    </div>
+    );
+  }
+
+
+}
+
+function RenderDish({ dish }) {
+  if (dish !== null) {
+    return (
+      <div key={dish.id} className='col-12 col-md-5 m-1'>
+        <Card >
+          <CardImg top width="100%" src={dish.image} alt="Card image cap" />
+          <CardBody>
+            <CardTitle>{dish.name}</CardTitle>
+            <CardText>{dish.description}</CardText>
+          </CardBody>
+        </Card>
+      </div>
+    )
+  }
+  else {
+    return (<div></div>)
+  }
+}
+
+function RenderComments({ comments,dishId,addComment }) {
+  if (comments !== null) {
+    return (
+      <div className='col-12 col-md-5 m-1'>
+        <h4>Comments</h4>
+        <ul className='list-unstyled'>
+          {comments.map(comment =>
+            <li key={comment.id}>
+              <p>{comment.comment}</p>
+              <p>-- {comment.author},
+              {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(comment.date))}
+              </p>
+            </li>
+          )}
+        </ul>
+        <CommentForm dishId={dishId} addComment={addComment}/>
+      </div>
+    )
+  }
+  else {
+    return (
+      <div></div>
+    )
+  }
+}
+
+const DishDetail = (props) => {
+    if (props.dish != null) {
+      return (
+        <div className='container'>
+          <div className="row">
+            <Breadcrumb>
+              <BreadcrumbItem><Link to="/menu">Menu</Link></BreadcrumbItem>
+              <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
+            </Breadcrumb>
+            <div className="col-12">
+              <h3>{props.dish.name}</h3>
+              <hr />
+            </div>
+          </div>
+          <div className='row'>
+            <RenderDish dish={props.dish} />
+            <RenderComments comments={props.comments} dishId={props.dish.id} addComment={props.addComment}/>
           </div>
         </div>
       )
     }
     else {
-      return (
-        <div>
-        </div>)
+      return (<div></div>)
     }
 
   }
-}
+
 
 export default DishDetail;
