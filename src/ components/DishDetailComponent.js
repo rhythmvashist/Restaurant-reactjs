@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Card, CardBody, CardTitle, CardText, CardImg, Breadcrumb, BreadcrumbItem,Button,Modal, ModalHeader,ModalBody,Label,Row,Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import {Control, LocalForm,Errors} from 'react-redux-form'
+import {Loading} from './LoadingComponent';
 
 
 const required = (val) => val && val.length;
@@ -27,7 +28,6 @@ class CommentForm extends Component{
   handleSubmit(values){
     this.toggleModal();
     this.props.addComment(this.props.dishId,values.rating,values.name,values.comment);
-    alert("curent state is :"+JSON.stringify(values))
   }
 
   render() {
@@ -36,8 +36,8 @@ class CommentForm extends Component{
       <Button outline onClick={this.toggleModal} ><span className="fa fa-edit fa-lg"></span> Submit Comment</Button>
       <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
         <ModalHeader toggle={this.toggleModal}>Login</ModalHeader>
-              <ModalBody>
-              <LocalForm onSubmit={this.handleSubmit}>
+            <ModalBody>
+            <LocalForm onSubmit={this.handleSubmit}>
               <Row className="form-group">
                 <Label htmlFor="rating" md={12}>
                   Rating
@@ -151,7 +151,24 @@ function RenderComments({ comments,dishId,addComment }) {
 }
 
 const DishDetail = (props) => {
-    if (props.dish != null) {
+  if(props.isLoading){
+    return (<div className='container'>
+      <div className='row'>
+        <Loading/>
+      </div>
+    </div>)
+  }
+
+else if (props.errMsg){
+  return (
+  <div className='container'>
+    <div className='row'>
+      <h4>{props.errMsg}</h4>
+    </div>
+
+  </div>)
+}
+  else if (props.dish != null) {
       return (
         <div className='container'>
           <div className="row">
