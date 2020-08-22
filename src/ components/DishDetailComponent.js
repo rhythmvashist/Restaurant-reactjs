@@ -159,40 +159,40 @@ const DishDetail = (props) => {
     </div>)
   }
 
-else if (props.errMsg){
-  return (
-  <div className='container'>
-    <div className='row'>
-      <h4>{props.errMsg}</h4>
-    </div>
+  else if (props.errMsg){
+    return (
+    <div className='container'>
+      <div className='row'>
+        <h4>{props.errMsg}</h4>
+      </div>
 
-  </div>)
-}
+    </div>)
+  }
+
   else if (props.dish != null) {
-      return (
-        <div className='container'>
-          <div className="row">
-            <Breadcrumb>
-              <BreadcrumbItem><Link to="/menu">Menu</Link></BreadcrumbItem>
-              <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
-            </Breadcrumb>
-            <div className="col-12">
-              <h3>{props.dish.name}</h3>
-              <hr />
-            </div>
-          </div>
-          <div className='row'>
-            <RenderDish dish={props.dish} />
-            <RenderComments comments={props.comments} dishId={props.dish.id} addComment={props.addComment}/>
+    return (
+      <div className='container'>
+        <div className="row">
+          <Breadcrumb>
+            <BreadcrumbItem><Link to="/menu">Menu</Link></BreadcrumbItem>
+            <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
+          </Breadcrumb>
+          <div className="col-12">
+            <h3>{props.dish.name}</h3>
+            <hr />
           </div>
         </div>
-      )
-    }
-    else {
-      return (<div></div>)
-    }
-
+        <div className='row'>
+          <RenderDish dish={props.dish} />
+          <RenderComments comments={props.comments} dishId={props.dish.id} addComment={props.addComment}/>
+        </div>
+      </div>
+    )    
   }
+  else {
+    return (<div></div>)
+  }
+}
 
 
 export default DishDetail;

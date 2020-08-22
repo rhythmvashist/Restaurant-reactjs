@@ -20,7 +20,6 @@ const mapStateToProps = state =>{
   }
 }
 
-
 const mapDispatchToProps = dispatch => ({
   addComment:(dishId,rating,author,comment) => dispatch(addComment(dishId,rating,author,comment)),
   fetchDishes:() => dispatch(fetchDishes())
@@ -53,7 +52,6 @@ class Main extends Component {
         addComment={this.props.addComment}/>)
     }
     
-
     
     return (
       <div>
@@ -66,8 +64,7 @@ class Main extends Component {
           <Route path='/aboutus' component={()=> <About leaders={this.props.leaders}/>} />
           <Redirect to="/home" />
         </Switch>
-        {/*
-            <Menu  dishes={this.state.dishes} onClick={(dishId)=> this.onDishSelect(dishId)}/>
+        {/* <Menu  dishes={this.state.dishes} onClick={(dishId)=> this.onDishSelect(dishId)}/>
             <DishDetail dish={this.state.dishes.filter((dish) => dish.id === this.state.selectedDish)[0]}/>
           */}
         <Footer />
