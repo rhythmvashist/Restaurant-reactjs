@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Breadcrumb, BreadcrumbItem, Form, FormGroup, Label, Input, Col,FormFeedback } from 'reactstrap'
 import { Link } from 'react-router-dom';
-
+import {Control,Form,Errors} from 'react-redux-form'
 
 class Contact extends Component {
     constructor(props) {
