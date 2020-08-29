@@ -53,8 +53,6 @@ class Main extends Component {
       dishesErrMsg={this.props.dishes.errMsg} 
       promosLoading={this.props.promotions.isLoading} 
       promosErrMsg={this.props.promotions.errMsg}
-
-
       />)}
 
     // both work similarly 
@@ -66,7 +64,7 @@ class Main extends Component {
         addComment={this.props.addComment}/>)
     }
     
-    
+  
     return (
       <div>
         <Header />
