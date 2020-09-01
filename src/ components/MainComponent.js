@@ -8,7 +8,7 @@ import About from './AboutComponent'
 import { Route, Redirect, Switch, withRouter } from 'react-router-dom';
 import {connect} from 'react-redux';
 import Home from './HomeComponent'
-import {addComment, fetchDishes} from '../redux/ActionCreators'
+import {addComment, fetchDishes, fetchComments,fetchPromos} from '../redux/ActionCreators'
 import {actions} from 'react-redux-form'
 
 
@@ -29,6 +29,12 @@ const mapDispatchToProps = dispatch => ({
   fetchPromos:() => dispatch(fetchPromos()),
 });
 
+componentDidMount() {
+  this.props.fetchDishes();
+  this.props.fetchComments();
+  this.props.fetchPromos();
+}
+
 
 class Main extends Component {
 
@@ -46,7 +52,8 @@ class Main extends Component {
 
   render() {
     const Homepage = () => {
-    return(<Home dish={this.props.dishes.dishes.filter((dish) => dish.featured)[0]}
+    return(
+    <Home dish={this.props.dishes.dishes.filter((dish) => dish.featured)[0]}
       promotion={this.props.promotions.filter((promo) => promo.featured)[0]}
       leader={this.props.leaders.filter((lead) => lead.featured)[0]}
       dishesLoading={this.props.dishes.isLoading} 
